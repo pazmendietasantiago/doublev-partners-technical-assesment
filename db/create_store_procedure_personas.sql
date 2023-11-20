@@ -1,0 +1,5 @@
+CREATE PROCEDURE GetAllPeople
+AS
+BEGIN
+    SELECT * FROM Personas;
+END;

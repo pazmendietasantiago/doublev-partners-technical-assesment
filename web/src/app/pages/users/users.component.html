@@ -1,0 +1,438 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card ml-4 mr-4 mt-4">
+      <p-toast></p-toast>
+      <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+          <div class="my-2">
+            <button
+              pButton
+              pRipple
+              label="Nuevo Usuario"
+              icon="pi pi-user"
+              class="p-button-success mr-2"
+              (click)="openNewUserDialog()"
+            ></button>
+            <button
+              pButton
+              pRipple
+              label="Nueva Persona"
+              icon="pi pi-users"
+              class="p-button-info mr-2"
+              (click)="openNewPersonDialog()"
+            ></button>
+          </div>
+          <div>
+            <button
+              pButton
+              pRipple
+              label="Salir"
+              icon="pi pi-user"
+              class="p-button-danger mr-2"
+              [routerLink]="'/'"
+            ></button>
+          </div>
+        </ng-template>
+      </p-toolbar>
+      <!--Acordion-->
+      <p-accordion [multiple]="true">
+        <p-accordionTab header="Usuarios registrados" [selected]="true">
+          <!--Tabla Usuarios-->
+          <p-table
+            #usersDatatable
+            [value]="users"
+            [columns]="columnsUsers"
+            responsiveLayout="scroll"
+            [rows]="10"
+            [globalFilterFields]="['id', 'user']"
+            [rows]="10"
+            [paginator]="true"
+            [rowsPerPageOptions]="[10, 20]"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando desde el registro {first} al {last} de un total de {totalRecords}"
+            [rowHover]="true"
+            dataKey="id"
+          >
+            <ng-template pTemplate="caption">
+              <div
+                class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+              >
+                <span class="block mt-2 md:mt-0 p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="onGlobalFilter(usersDatatable, $event)"
+                    placeholder="Buscar usuario"
+                    class="w-full sm:w-auto"
+                  />
+                </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="id">
+                  Código <p-sortIcon field="id"></p-sortIcon>
+                </th>
+                <th pSortableColumn="user">
+                  Usuario <p-sortIcon field="user"></p-sortIcon>
+                </th>
+                <th pSortableColumn="creationDate">
+                  Fecha de creación
+                  <p-sortIcon field="creationDate"></p-sortIcon>
+                </th>
+                <th>Estado</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user>
+              <tr>
+                <td style="width: 14%; min-width: 10rem">
+                  <span class="p-column-title">Código</span>
+                  {{ user.id }}
+                </td>
+                <td style="width: 14%; min-width: 10rem">
+                  <span class="p-column-title">Nombres</span>
+                  {{ user.user }}
+                </td>
+                <td style="width: 14%; min-width: 8rem">
+                  <span class="p-column-title">Fecha de creación</span>
+                  {{ user.creationDate }}
+                </td>
+                <td style="width: 14%; min-width: 8rem">
+                  <span class="p-column-title">Estado</span>
+                  Activo
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-accordionTab>
+        <p-accordionTab header="Personas registradas">
+          <!--Tabla personas-->
+          <p-table
+            #personsDatatable
+            [value]="persons"
+            [columns]="columnsPersons"
+            responsiveLayout="scroll"
+            [rows]="10"
+            [globalFilterFields]="['name', 'lastname', 'dni', 'email']"
+            [rows]="10"
+            [paginator]="true"
+            [rowsPerPageOptions]="[10, 20]"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando desde el registro {first} al {last} de un total de {totalRecords}"
+            [rowHover]="true"
+            dataKey="id"
+          >
+            <ng-template pTemplate="caption">
+              <div
+                class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+              >
+                <span class="block mt-2 md:mt-0 p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="onGlobalFilter(personsDatatable, $event)"
+                    placeholder="Buscar persona"
+                    class="w-full sm:w-auto"
+                  />
+                </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="id">
+                  Código <p-sortIcon field="id"></p-sortIcon>
+                </th>
+                <th pSortableColumn="name">
+                  Nombres <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="apellidos">
+                  Apellidos <p-sortIcon field="lastname"></p-sortIcon>
+                </th>
+                <th>Imagen</th>
+                <th pSortableColumn="dniType">
+                  Tipo documento
+                  <p-sortIcon field="dniType"></p-sortIcon>
+                </th>
+                <th pSortableColumn="dni">
+                  No. documento <p-sortIcon field="dni"></p-sortIcon>
+                </th>
+                <th pSortableColumn="email">
+                  Email
+                  <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-person>
+              <tr>
+                <td style="width: 14%; min-width: 10rem">
+                  <span class="p-column-title">Código</span>
+                  {{ person.id }}
+                </td>
+                <td style="width: 14%; min-width: 10rem">
+                  <span class="p-column-title">Nombres</span>
+                  {{ person.name }}
+                </td>
+                <td style="width: 14%; min-width: 8rem">
+                  <span class="p-column-title">Apellidos</span>
+                  {{ person.lastName }}
+                </td>
+                <td style="width: 10%; min-width: 6rem">
+                  <span class="p-column-title">Imagen</span>
+                  <img
+                    [src]="person.userImage"
+                    [alt]="person.completeName"
+                    width="40"
+                    class="shadow-4 circle round-image"
+                  />
+                </td>
+                <td style="width: 14%; min-width: 10rem">
+                  <span class="p-column-title">Tipo documento</span>
+                  {{ person.dniType }}
+                </td>
+                <td style="width: 14%; min-width: 10rem">
+                  <span class="p-column-title">No. documento</span>
+                  {{ person.dni }}
+                </td>
+                <td style="width: 14%; min-width: 10rem">
+                  <span class="p-column-title">Email</span>
+                  {{ person.email }}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <!--Fin Tabla personas-->
+        </p-accordionTab>
+      </p-accordion>
+      <!--Acordion-->
+    </div>
+    <!--Dialogo de guardado de personas-->
+    <div>
+      <form [formGroup]="personForm" (ngSubmit)="savePerson()" novalidate>
+        <p-dialog
+          [(visible)]="isPersonDialogVisible"
+          [style]="{ width: '450px' }"
+          header="Información de nuevo usuario"
+          [modal]="true"
+          class="p-fluid"
+        >
+          <ng-template pTemplate="content">
+            <div class="field">
+              <label for="name">Nombres</label>
+              <input
+                type="text"
+                pInputText
+                id="name"
+                [(ngModel)]="person.name"
+                required
+                autofocus
+                [ngClass]="{
+                  'ng-invalid ng-dirty': submittedPerson && !person.name
+                }"
+                formControlName="names"
+              />
+              <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submittedPerson && !person.name"
+                >Los nombres son requeridos.</small
+              >
+            </div>
+
+            <div class="field">
+              <label for="name">Apellidos</label>
+              <input
+                type="text"
+                pInputText
+                id="name"
+                [(ngModel)]="person.lastName"
+                required
+                [ngClass]="{
+                  'ng-invalid ng-dirty': submittedPerson && !person.lastName
+                }"
+                formControlName="lastNames"
+              />
+              <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submittedPerson && !person.lastName"
+                >Los apellidos son requeridos.</small
+              >
+            </div>
+
+            <div class="field">
+              <label for="status">Tipo de documento</label>
+              <p-dropdown
+                [options]="documentTypes"
+                placeholder="Seleccion un tipo de documento de identificación"
+                optionLabel="label"
+                [(ngModel)]="selectedDocumentType"
+                formControlName="documentType"
+              >
+                <ng-template pTemplate="selectedItem">
+                  <span
+                    *ngIf="person && selectedDocumentType"
+                    [class]="
+                      'product-badge status-' +
+                      selectedDocumentType.value.toString().toLowerCase()
+                    "
+                    >{{ selectedDocumentType.value }}</span
+                  >
+                </ng-template>
+                <ng-template let-status pTemplate="status">
+                  <span
+                    [class]="
+                      'product-badge status-' + status.value.toLowerCase()
+                    "
+                    >{{ status.label }}</span
+                  >
+                </ng-template>
+              </p-dropdown>
+            </div>
+
+            <div class="field">
+              <label for="name">Número de identificación</label>
+              <input
+                type="number"
+                min="0"
+                pInputText
+                id="name"
+                [(ngModel)]="person.dni"
+                required
+                [ngClass]="{
+                  'ng-invalid ng-dirty':
+                    submittedPerson && !person.dni
+                }"
+                formControlName="identification"
+              />
+              <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submittedPerson && !person.dni"
+                >El número de identificación es requerido.</small
+              >
+            </div>
+
+            <div class="field">
+              <label for="name">Email</label>
+              <input
+                type="email"
+                pInputText
+                id="name"
+                [(ngModel)]="person.email"
+                required
+                [ngClass]="{
+                  'ng-invalid ng-dirty': submittedPerson && !person.email
+                }"
+                formControlName="email"
+              />
+              <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submittedPerson && !person.email"
+                >El email es requerido.</small
+              >
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate="footer">
+            <button
+              pButton
+              pRipple
+              label="Cancelar"
+              icon="pi pi-times"
+              class="p-button-text"
+              (click)="hidePersonDialog()"
+              type="button"
+            ></button>
+            <button
+              pButton
+              pRipple
+              label="Guardar"
+              icon="pi pi-check"
+              class="p-button-text"
+              type="submit"
+              [disabled]="!personForm.valid"
+            ></button>
+          </ng-template>
+        </p-dialog>
+      </form>
+    </div>
+    <!--Dialogo de guardado de usuarios-->
+    <div>
+      <form [formGroup]="userForm" (ngSubmit)="saveUser()" novalidate>
+        <p-dialog
+          [(visible)]="isUserDialogVisible"
+          [style]="{ width: '450px' }"
+          header="Información de nuevo usuario"
+          [modal]="true"
+          class="p-fluid"
+        >
+          <ng-template pTemplate="content">
+            <div class="field">
+              <label for="name">Username</label>
+              <input
+                type="text"
+                pInputText
+                id="username"
+                placeholder="Será usado para indentificarse en la plataforma"
+                [(ngModel)]="user.user"
+                required
+                autofocus
+                [ngClass]="{
+                  'ng-invalid ng-dirty': submittedUser && !user.user
+                }"
+                formControlName="username"
+              />
+              <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submittedUser && !user.user"
+                >El username es requeridos.</small
+              >
+            </div>
+
+            <div class="field">
+              <label for="password">Contraseña</label>
+              <input
+                type="password"
+                pInputText
+                id="password"
+                [(ngModel)]="user.password"
+                required
+                [ngClass]="{
+                  'ng-invalid ng-dirty': submittedUser && !user.password
+                }"
+                formControlName="password"
+              />
+              <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submittedUser && !user.password"
+                >No puedes registrarte en una plataforma sin tener una
+                clave.</small
+              >
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate="footer">
+            <button
+              pButton
+              pRipple
+              label="Cancelar"
+              icon="pi pi-times"
+              class="p-button-text"
+              (click)="hideUserDialog()"
+              type="button"
+            ></button>
+            <button
+              pButton
+              pRipple
+              label="Guardar"
+              icon="pi pi-check"
+              class="p-button-text"
+              type="submit"
+              [disabled]="!userForm.valid"
+            ></button>
+          </ng-template>
+        </p-dialog>
+      </form>
+    </div>
+  </div>
+</div>

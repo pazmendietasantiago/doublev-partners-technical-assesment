@@ -1,0 +1,93 @@
+<div
+  class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
+>
+  <p-toast></p-toast>
+  <div class="flex flex-column align-items-center justify-content-center">
+    <img
+      src="https://yt3.googleusercontent.com/7bMehAiE3WCX-1BGdQDh2RcweGJSzopqSAiF70FERbc98K39nmZPKkvVoctA50ylwRrD1BJ9=s900-c-k-c0x00ffffff-no-rj"
+      alt="proyect-logo"
+      class="mb-5 w-6rem flex-shrink-0"
+    />
+    <div style="border-radius: 56px; padding: 0.3rem">
+      <div
+        class="w-full surface-card py-8 px-5 sm:px-8"
+        style="border-radius: 53px"
+      >
+        <div class="text-center mb-5">
+          <img
+            src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-and-shapes-6/177800/299-512.png"
+            alt="Image"
+            height="50"
+            class="mb-3"
+          />
+          <div class="text-900 text-3xl font-medium mb-3">¡Hola de nuevo!</div>
+          <span class="text-600 font-medium"
+            >Por favor, inicia sesión para continuar</span
+          >
+          <!---->
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+          <div>
+            <label for="email1" class="block text-900 text-xl font-medium mb-2"
+              >Usuario</label
+            >
+            <input
+              id="username"
+              type="text"
+              placeholder="Usuario"
+              pInputText
+              class="w-full md:w-30rem mb-5"
+              style="padding: 1rem"
+              formControlName="username"
+            />
+
+            <label
+              for="password"
+              class="block text-900 font-medium text-xl mb-2"
+              >Clave</label
+            >
+            <p-password
+              id="password"
+              placeholder="Clave de usuario"
+              [toggleMask]="true"
+              styleClass="mb-5"
+              inputStyleClass="w-full p-3 md:w-30rem"
+              formControlName="password"
+            ></p-password>
+
+            <div
+              class="flex align-items-center justify-content-between mb-5 gap-5"
+            >
+              <div class="flex align-items-center">
+                <input
+                  type="checkbox"
+                  name="rememberme"
+                  id="rememberme"
+                  [value]="isNotRememberChecked"
+                />
+                <label for="rememberme1"
+                  >Por favor, no me preguntes de nuevo</label
+                >
+              </div>
+              <a
+                href="https://www.doublevpartners.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-medium no-underline ml-2 text-right cursor-pointer"
+                style="color: var(--primary-color)"
+                >Oops! olvidé mi contraseña</a
+              >
+            </div>
+            <button
+              type="submit"
+              pButton
+              pRipple
+              label="Iniciar sesión"
+              class="w-full p-3 text-xl"
+            ></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
